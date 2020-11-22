@@ -1,19 +1,20 @@
 import React from "react";
+import './App.css';
 import Employees from './Components/Employees/employes';
-import Banks from './Components/Banks/banks';
+import Branch from './Components/Branch/branch';
 import { Switch, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
-    <div>
-    <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <a href="/banks" className="navbar-brand">
+    <div className="app-container">
+    <nav className="navbar navbar-expand navbar-app">
+        <a href="/branch" className="navbar-brand">
           Cumplo Code Challenge
         </a>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/banks"} className="nav-link">
-              Banks
+            <Link to={"/branch"} className="nav-link">
+              Branch
             </Link>
           </li>
           <li className="nav-item">
@@ -26,7 +27,7 @@ function App() {
 
       <div className="container mt-3">
         <Switch>
-          <Route exact path={["/", "/banks"]} component={Banks} />
+          <Route exact path={["/", "/branch"]} component={Branch} />
           <Route exact path="/employees" component={Employees} />
         </Switch>
       </div>
