@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Employees from './Components/Employees/employes';
+import Banks from './Components/Banks/banks';
+import { Switch, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+    <div>
+    <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <a href="/banks" className="navbar-brand">
+          Cumplo Code Challenge
         </a>
-      </header>
+        <div className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link to={"/banks"} className="nav-link">
+              Banks
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to={"/employees"} className="nav-link">
+              Employees
+            </Link>
+          </li>
+        </div>
+      </nav>
+
+      <div className="container mt-3">
+        <Switch>
+          <Route exact path={["/", "/banks"]} component={Banks} />
+          <Route exact path="/employees" component={Employees} />
+        </Switch>
+      </div>
     </div>
   );
 }
