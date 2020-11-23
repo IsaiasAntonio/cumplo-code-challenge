@@ -1,48 +1,103 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { createEmployee } from '../../utils/methods';
 
 const Employees = () => {
-    const [ infoEmployees, setEmployees ] = useState({});
-    const [ ifNext, setNext ] = useState(false);
-    const [ count, setCount ] = useState(2);
+    const branchValues = [
+        {
+            "id": 1,
+            "name": "Quinn Wiley",
+            "bank": 4
+        },
+        {
+            "id": 2,
+            "name": "Josiah Montgomery",
+            "bank": 2
+        },
+        {
+            "id": 3,
+            "name": "Hedley Todd",
+            "bank": 2
+        },
+        {
+            "id": 4,
+            "name": "Victor Boone",
+            "bank": 4
+        }
+    ];
 
-    const getEmployeesData = () => {
-        axios.get('https://tryouts-cumplo.herokuapp.com/employees/').then(res => {
-            const emp = res.data;
-            if(res.data.next !== null) {
-                setNext(true);
-            } else {
-                setNext(false);
-            }
-            console.log(emp);
-            setEmployees(emp);
+    const [ formValues, setFormValues ] = useState({
+        name: "",
+        middle_name: "",
+        last_name: "",
+        branch: 0
+    });
+
+    const onFormChange = (e) => {
+        setFormValues({
+            ...formValues,
+            [e.target.name]: e.target.value,
         })
     }
 
-    const getEmployeesDataNext = () => {
-        setCount(count + 1)
-        console.log(count);
-        axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?page=${count}`).then(res => {
-            const emp = res.data;
-            if(res.data.next !== null) {
-                console.log(res.data.next);
-                setNext(true);
-            } else {
-                setNext(false);
-            }
-            console.log(emp);
-            setEmployees(emp);
-        })
+    const sendData = (evt) => {
+        evt.preventDefault();
+        const { name, middle_name, last_name, branch } = formValues;
+        let valueObj = {
+            "name": name,
+            "middle_name": middle_name,
+            "last_name": last_name,
+            "branch": branch
+        };
+
+        if( !name || !middle_name || !last_name || !branch ) {
+            console.log("All fields must be filled");
+        } else {
+            createEmployee(valueObj).then(res => {
+                console.log(res);
+                setFormValues({
+                    ...formValues,
+                    [evt.target.name]: "",
+                })
+            }).catch(e => {
+                console.log(e);
+            })
+        }
     }
 
     return ( 
-        <div>
-            <button type="button" className="btn btn-primary" onClick={getEmployeesData}>Get employees</button>
-            { ifNext ? 
-                <button type="button" className="btn btn-primary" onClick={getEmployeesDataNext}>next</button>
-                : ""
-
-            }
+        <div className="container">
+            <form onChange={onFormChange} onSubmit={(event) => sendData(event)} >
+                <div className="form-group">
+                    <label>First Name</label>
+                    <input name="name" className="form-control" type="text" placeholder="First Name" />
+                </div>
+                <div className="form-group">
+                    <label>Middle Name</label>
+                    <input name="middle_name" className="form-control" type="text" placeholder="Middle input" />
+                </div>
+                <div className="form-group">
+                    <label>Last Name</label>
+                    <input name="last_name" className="form-control" type="text" placeholder="Last input" />
+                </div>
+                <div className="form-group">
+                    <label>Branch</label>
+                    <select name="branch" className="form-control">
+                        <option value="0" disabled>Select a Branch</option>
+                        {
+                            branchValues.map((values) => {
+                                return (
+                                    <option key={values.id} value={values.id}>{values.name}</option>
+                                )
+                            
+                            })
+                        }
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" className="btn btn-success">Submit</button>
+                </div>
+            </form>
+        
         </div>
     );
 }
