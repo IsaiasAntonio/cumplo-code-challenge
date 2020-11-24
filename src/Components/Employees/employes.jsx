@@ -25,6 +25,9 @@ const Employees = () => {
         }
     ];
 
+    const [ submit, setSubmit ] = useState(false);
+    const [ empty, setEmpty ] = useState(false);
+
     const [ formValues, setFormValues ] = useState({
         name: "",
         middle_name: "",
@@ -41,6 +44,8 @@ const Employees = () => {
 
     const sendData = (evt) => {
         evt.preventDefault();
+        setSubmit(false);
+        setEmpty(false);
         const { name, middle_name, last_name, branch } = formValues;
         let valueObj = {
             "name": name,
@@ -51,6 +56,7 @@ const Employees = () => {
 
         if( !name || !middle_name || !last_name || !branch ) {
             console.log("All fields must be filled");
+            setEmpty(true);
         } else {
             createEmployee(valueObj).then(res => {
                 console.log(res);
@@ -58,6 +64,8 @@ const Employees = () => {
                     ...formValues,
                     [evt.target.name]: "",
                 })
+                setEmpty(false);
+                setSubmit(true);
             }).catch(e => {
                 console.log(e);
             })
@@ -93,6 +101,8 @@ const Employees = () => {
                         }
                     </select>
                 </div>
+                { submit ?  <div className="alert alert-success" role="alert">Employee Created!</div> : '' }
+                { empty ?  <div className="alert alert-danger" role="alert">All fields must be filled</div> : '' }
                 <div>
                     <button type="submit" className="btn btn-success">Submit</button>
                 </div>
