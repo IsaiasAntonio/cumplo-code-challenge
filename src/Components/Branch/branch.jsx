@@ -65,12 +65,10 @@ const Branch = () => {
                 </tbody>
             </table>
             </div>
-            <Modal className="modal-container" open={open} onClose={handleClose}>
-                <ModalContainer employeeInfo={employeeInfo} />
-            </Modal>
-            
+                <Modal className="modal-container" open={open} onClose={handleClose}>
+                    <ModalContainer employeeInfo={employeeInfo} />
+                </Modal>
             </div>
-        
     );
 }
 

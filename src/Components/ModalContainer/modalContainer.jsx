@@ -7,6 +7,10 @@ const ModalContainer = (props) => {
     const { employeeInfo } = props;
     const [ employeesData, setEmployeesData ] = useState(employeeInfo || {});
     const [ next, setNextPage ] = useState("");
+    const [ back, setBackPage ] = useState("");
+    const [ showButton, setButton ] = useState(false);
+
+
 
     useEffect(() => {
         setNextPage(props.employeeInfo.next)
@@ -19,7 +23,26 @@ const ModalContainer = (props) => {
         setEmployeesData(res.data);
         if(res.data.next !== null) {
             setNextPage(res.data.next);
+            setBackPage(res.data.previous);
+            setButton(true);
+        } else if(res.data.previous !== null) {
+            setButton(true);
         }
+        }).catch(e => {
+            console.log(e);
+        })
+    }
+
+    const backPage = () => {
+        axios.get(back).then(res => {
+            if(res.data.previous !== null) {
+                setEmployeesData(res.data);
+                setBackPage(res.data.previous);
+                setButton(true);
+            } else {
+                setButton(false);
+            }
+            
         }).catch(e => {
             console.log(e);
         })
@@ -57,9 +80,7 @@ const ModalContainer = (props) => {
                     </table>
                     <div className="row">
                         <div className="col-sm button-container">
-                            <button onClick={nextPage} className="btn btn-success">
-                                <ArrowBackIos />
-                            </button>
+                            { showButton ? <button onClick={backPage} className="btn btn-success"><ArrowBackIos /> </button> : '' }
                         </div>
                         <div className="col-sm button-container">
                             <button onClick={nextPage} className="btn btn-success">

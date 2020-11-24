@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createEmployee } from '../../utils/methods';
+import './index.scss';
 
 const Employees = () => {
     const branchValues = [
@@ -73,8 +74,8 @@ const Employees = () => {
     }
 
     return ( 
-        <div className="container">
-            <form onChange={onFormChange} onSubmit={(event) => sendData(event)} >
+        <div className="container employees-form">
+            <form className="form-container" onChange={onFormChange} onSubmit={(event) => sendData(event)} >
                 <div className="form-group">
                     <label>First Name</label>
                     <input name="name" className="form-control" type="text" placeholder="First Name" />
@@ -103,7 +104,7 @@ const Employees = () => {
                 </div>
                 { submit ?  <div className="alert alert-success" role="alert">Employee Created!</div> : '' }
                 { empty ?  <div className="alert alert-danger" role="alert">All fields must be filled</div> : '' }
-                <div>
+                <div className="button-submit">
                     <button type="submit" className="btn btn-success">Submit</button>
                 </div>
             </form>
