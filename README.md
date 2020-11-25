@@ -5,7 +5,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run: 
-The Cumplo Chanllenge Code
+The Cumplo Chanllenge Code.
+
+### `Important!`
+The updated code is on Master Branch
+
+
+### `npm install`
+After download the project, install all dependencies with npm install
 
 ### `npm start`
 
